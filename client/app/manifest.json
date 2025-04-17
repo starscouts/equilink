@@ -1,0 +1,61 @@
+{
+  "name": "Equestria.dev Equilink",
+  "short_name": "Equilink",
+  "start_url": "/app/index.html",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/icons/icon-maskable.png",
+      "type": "image/png", "sizes": "1024x1024",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-1024x1024.png",
+      "type": "image/png", "sizes": "1024x1024",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-512x512.png",
+      "type": "image/png", "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-256x256.png",
+      "type": "image/png", "sizes": "256x256",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-128x128.png",
+      "type": "image/png", "sizes": "128x128",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-96x96.png",
+      "type": "image/png", "sizes": "96x96",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-64x64.png",
+      "type": "image/png", "sizes": "64x64",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-48x48.png",
+      "type": "image/png", "sizes": "48x48",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-32x32.png",
+      "type": "image/png", "sizes": "32x32",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-24x24.png",
+      "type": "image/png", "sizes": "24x24",
+      "purpose": "any"
+    }
+  ]
+}

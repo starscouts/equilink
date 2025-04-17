@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Equilink</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="ui.js"></script>
+    <script src="ws.js"></script>
+    <script src="cache.js"></script>
+</head>
+<body>
+    <div id="offline">
+        <div id="offline-inner">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#555555" style="width: 64px; height: 64px;"><path d="M0 0h24v24H0z" fill="none"/><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-1.48 0-2.85.43-4.01 1.17l1.46 1.46C10.21 6.23 11.08 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3 0 1.13-.64 2.11-1.56 2.62l1.45 1.45C23.16 18.16 24 16.68 24 15c0-2.64-2.05-4.78-4.65-4.96zM3 5.27l2.75 2.74C2.56 8.15 0 10.77 0 14c0 3.31 2.69 6 6 6h11.73l2 2L21 20.73 4.27 4 3 5.27zM7.73 10l8 8H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h1.73z"/></svg>
+            <h1>Server is unavailable</h1>
+            <p>We are unable to connect to the Equilink server right now, please try again later.</p>
+        </div>
+    </div>
+
+    <div id="loader">
+        <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+        </svg>
+    </div>
+
+    <div id="notification">
+        <div id="notification-inner">Received boop from&nbsp;<b id="notification-sender">X</b></div>
+    </div>
+
+    <div id="cta" class="shown">
+        <div id="cta-inner">Tap anywhere on the screen to enable vibration</div>
+    </div>
+
+    <div id="dialog-outer" style="display: none;">
+        <div id="dialog">
+            <div id="dialog-title">
+                <div id="dialog-add-title" class="dialog-title-option">Add a new friend</div>
+                <div id="dialog-close" onclick="closeDialog();"><img src="/assets/icons/close.svg"></div>
+            </div>
+
+            <div id="dialog-content">
+                <div id="dialog-add-content">
+                    <p>Enter your new friend's Equilink friend code:</p>
+                    <div id="dialog-add-content-input">
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-0" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-1" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-2" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-3" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                        <span id="dialog-add-content-separator-0" class="dialog-add-content-input dialog-add-content-input-separator">-</span>
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-4" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-5" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-6" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-7" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                        <span id="dialog-add-content-separator-1" class="dialog-add-content-input dialog-add-content-input-separator">-</span>
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-8" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-9" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-10" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                        <input type="number" max="9" min="0" maxlength="1" minlength="1" id="dialog-add-content-input-11" class="dialog-add-content-input dialog-add-content-input-text" placeholder="0">
+                    </div>
+                    <button id="dialog-add-content-submit" class="disabled" onclick="sendRequest();">Send a friend request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav id="navigation">
+        <a onclick="page('home');" class="navigation-item active" id="navigation-item-home"><div class="navigation-item-border"></div></a>
+        <a onclick="page('vibrate');" class="navigation-item" id="navigation-item-vibrate"><div class="navigation-item-border"></div></a>
+        <a onclick="page('friends');" class="navigation-item" id="navigation-item-friends"><div class="navigation-item-border"></div></a>
+        <a onclick="page('settings');" class="navigation-item" id="navigation-item-settings"><div class="navigation-item-border"></div></a>
+    </nav>
+
+    <main id="pages">
+        <article class="page active" id="page-home">
+            <div class="card">
+                <div class="card-title">Your friend code</div>
+                <div class="card-body">
+                    <div id="home-friend-code"></div>
+                    <a onclick="page('settings');">Show friend code</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Online friends</div>
+                <div class="card-body">
+                    <div class="card-body-inner">
+                        <div class="card-body-nothing shown" id="home-online-nothing">None of your friends are currently online</div>
+                        <div class="card-body-list" id="home-online-list"></div>
+                    </div>
+                    <a onclick="page('vibrate');">Send a boop</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Received friend requests</div>
+                <div class="card-body">
+                    <div class="card-body-inner">
+                        <div class="card-body-nothing shown" id="home-requests-nothing">You don't have any friends requests</div>
+                        <div class="card-body-list" id="home-requests-list"></div>
+                    </div>
+                    <a onclick="page('friends');">Add a new friend</a>
+                </div>
+            </div>
+        </article>
+
+        <article class="page" id="page-vibrate">
+            <div id="vibrate-button" onclick="sendBoop();">
+                <img src="/assets/horseshoe.png" id="vibrate-button-img">
+            </div>
+
+            <div class="card">
+                <div class="card-title">Boop targets</div>
+                <div class="card-body">
+                    <div class="card-body-inner">
+                        <div class="card-body-nothing shown" id="vibrate-targets-nothing">You don't have any friends</div>
+                        <div class="card-body-list" id="vibrate-targets-list"></div>
+                    </div>
+                    <a onclick="page('friends');">Add a new friend</a>
+                </div>
+            </div>
+        </article>
+
+        <article class="page" id="page-friends">
+            <a class="card card-link" onclick="openDialog('add');">
+                <div class="card-body card-body-cta">
+                    <div class="card-body-cta-icon">
+                        <img alt="" src="/assets/icons/add.svg">
+                    </div>
+                    <div class="card-body-cta-text">
+                        Add a new friend
+                    </div>
+                </div>
+            </a>
+
+            <div class="card">
+                <div class="card-title">Received friend requests</div>
+                <div class="card-body">
+                    <div class="card-body-nothing shown" id="friends-requests-nothing">You don't have any friends requests</div>
+                    <div class="card-body-list" id="friends-requests-list"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">All friends</div>
+                <div class="card-body">
+                    <div class="card-body-nothing shown" id="friends-friends-nothing">I think it's time you add a friend</div>
+                    <div class="card-body-list" id="friends-friends-list"></div>
+                </div>
+            </div>
+        </article>
+
+        <article class="page" id="page-settings">
+            <div class="card">
+                <div class="card-title">Your friend code</div>
+                <div class="card-body">
+                    <div id="settings-friend-code"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Display name</div>
+                <div class="card-body" style="height: 19px;">
+                    <input maxlength="50" onkeyup="submitDisplayName();" onkeydown="submitDisplayName();" id="settings-name" type="text" placeholder="XXXX-XXXX-XXXX">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Device settings</div>
+                <div class="card-body">
+                    <div class="card-body-list shown">
+                        <div class="card-body-list-item">
+                            <div class="card-body-list-item-title">This device</div>
+                            <div class="card-body-list-item-actions">
+                                <a id="settings-notifications-delete" class="negative">Clear data (hold)</a> · <a onclick="regenerateKeys();">Refresh keys</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+</body>
+</html>

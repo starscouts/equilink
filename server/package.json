@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "nodemon": "^2.0.21",
+    "uuid-v4": "^0.1.0",
+    "ws": "^8.13.0"
+  },
+  "scripts": {
+    "start": "nodemon -i data.json index.js"
+  }
+}
